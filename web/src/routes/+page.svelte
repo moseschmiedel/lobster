@@ -1,58 +1,36 @@
 <script lang="ts">
-	import QRScanner from 'qr-scanner';
+	import AudioPlayer from '$lib/components/AudioPlayer.svelte';
+	import QRScanner from '$lib/components/QRScanner.svelte';
 
 	type Song = {
 		title: string;
-		streamUrl: URL;
-		coverUrl?: URL;
+		streamUrl: string;
+		coverUrl?: string;
 	};
 
-	let video: HTMLVideoElement | null = $state(null);
-	let song: Song | null = $state({
-		title: 'Test Song',
-		streamUrl: new URL('https://www.youtube.com/watch?v=ssKmVgTtMnc')
-	});
+	let song: Song | null = $state(null);
 
-	function parseURL(maybeURL: string): URL {
+	function parseURL(maybeURL: string): string {
+		if (maybeURL.startsWith('lobster://')) {
+			return `/songs/${maybeURL.replace('lobster://', '')}`;
+		}
 		if (!maybeURL.startsWith('http://') && !maybeURL.startsWith('https://')) {
 			throw new Error('Not a valid URL');
 		}
-		const url = new URL(maybeURL);
+		return maybeURL;
+	}
+
+	function parseQRCode(data: string) {
+		const audioURl = parseURL(data);
 		song = {
-			title: url.searchParams.get('title') || 'Unknown Title',
-			streamUrl: url
+			title: 'Scanned Song',
+			streamUrl: audioURl
 		};
-		return url;
 	}
-
-	function parseQRCode(qrResult: QRScanner.ScanResult) {
-		const url = parseURL(qrResult.data);
-	}
-
-	$effect(() => {
-		if (video) {
-			const scanner = new QRScanner(video, parseQRCode, {
-				preferredCamera: 'environment',
-				highlightScanRegion: true
-			});
-			scanner.start();
-
-			return () => {
-				scanner.stop();
-				scanner.destroy();
-			};
-		}
-	});
 </script>
 
-{#await QRScanner.hasCamera() then hasCamera}
-	{#if !hasCamera}
-		<p>No camera found on this device.</p>
-	{:else if song}
-		<h2>Now Playing: {song.title}</h2>
-		<video src={song.streamUrl.toString()} controls autoplay><track kind="captions" /></video>
-	{:else}
-		<p>Point your camera at a QR code to scan a song.</p>
-		<video bind:this={video} muted></video>
-	{/if}
-{/await}
+<QRScanner onScan={parseQRCode} />
+
+{#if song}
+	<AudioPlayer src={song.streamUrl} />
+{/if}
