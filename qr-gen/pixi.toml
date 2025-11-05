@@ -9,6 +9,7 @@ version = "0.1.0"
 
 [dependencies]
 yt-dlp = ">=2025.10.22,<2026"
+pathvalidate = ">=3.3.1,<4"
 
 [pypi-dependencies]
 qrcode = { version = "*", extras = ["pil"] }

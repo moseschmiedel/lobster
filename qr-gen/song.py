@@ -10,6 +10,7 @@ import os
 from concurrent.futures import ProcessPoolExecutor
 from yt_dlp import YoutubeDL, postprocessor
 import qrcode
+from pathvalidate import sanitize_filename
 
 
 @dataclass
@@ -97,7 +98,7 @@ class SongDB:
         for song in self.songs:
             if not song.yt_url:
                 continue
-            file_name = f"{song.title}.png"
+            file_name = sanitize_filename(f"{song.title}.png")
             img = song.qr_code()
             img.save(os.path.join(output_dir, file_name))
 
