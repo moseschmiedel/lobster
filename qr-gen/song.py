@@ -9,6 +9,7 @@ import shutil
 import os
 from concurrent.futures import ProcessPoolExecutor
 from yt_dlp import YoutubeDL, postprocessor
+import qrcode
 
 
 @dataclass
@@ -21,6 +22,24 @@ class Song:
     @override
     def __str__(self) -> str:
         return f"{self.title} by {self.artist} ({self.year}): {self.yt_url if self.yt_url else 'No URL'}"
+
+    def qr_code(self) -> qrcode.image.pil.PilImage:
+        if not self.yt_url:
+            raise ValueError("No YouTube URL to generate QR code for.")
+
+        qr = qrcode.QRCode(
+            version=None,
+            error_correction=qrcode.constants.ERROR_CORRECT_Q,
+            box_size=10,
+            border=4,
+        )
+
+        qr_data = f"lobster://{generate_short_id(self.yt_url, length=24)}"
+        qr.add_data(qr_data)
+        qr.make(fit=True)
+
+        img = qr.make_image(fill_color="black", back_color="white")
+        return img
 
 
 class SongDB:
@@ -72,6 +91,15 @@ class SongDB:
             params,
             urls,
         )
+
+    def generate_qr_codes(self, output_dir: str):
+        os.makedirs(output_dir, exist_ok=True)
+        for song in self.songs:
+            if not song.yt_url:
+                continue
+            file_name = f"{song.title}.png"
+            img = song.qr_code()
+            img.save(os.path.join(output_dir, file_name))
 
 
 base62_chars = string.digits + string.ascii_letters

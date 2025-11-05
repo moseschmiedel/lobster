@@ -8,5 +8,7 @@ version = "0.1.0"
 [tasks]
 
 [dependencies]
-qrcode = ">=8.2,<9"
 yt-dlp = ">=2025.10.22,<2026"
+
+[pypi-dependencies]
+qrcode = { version = "*", extras = ["pil"] }

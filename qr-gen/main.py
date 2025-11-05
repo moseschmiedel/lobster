@@ -1,3 +1,4 @@
+import sys
 from song import SongDB
 
 if __name__ == "__main__":
@@ -6,4 +7,7 @@ if __name__ == "__main__":
     for s in songs:
         print(s)
 
-    songs.download_yt()
+    if sys.argv[1] == "download":
+        songs.download_yt()
+    elif sys.argv[1] == "qr":
+        songs.generate_qr_codes("codes")
