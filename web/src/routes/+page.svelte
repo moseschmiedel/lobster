@@ -34,10 +34,10 @@
 	}
 </script>
 
-<QRScanner onScan={parseQRCode} disabled={song != null} />
-
 {#if song}
 	<AudioPlayer src={song.streamUrl} />
+{:else}
+	<QRScanner onScan={parseQRCode} />
 {/if}
 
 <button

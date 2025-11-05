@@ -3,10 +3,9 @@
 
 	type Props = {
 		onScan: (result: string) => void;
-		disabled?: boolean;
 	};
 
-	const { onScan, disabled }: Props = $props();
+	const { onScan }: Props = $props();
 
 	let video: HTMLVideoElement | null = $state(null);
 
@@ -21,10 +20,6 @@
 				highlightScanRegion: true
 			});
 			scanner.start();
-
-			if (disabled) {
-				scanner.stop();
-			}
 
 			return () => {
 				scanner.stop();
