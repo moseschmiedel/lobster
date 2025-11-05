@@ -21,16 +21,26 @@
 	}
 
 	function parseQRCode(data: string) {
+		console.log('Scanned QR Code:', data);
 		const audioURl = parseURL(data);
 		song = {
 			title: 'Scanned Song',
 			streamUrl: audioURl
 		};
 	}
+
+	function scanNewSong() {
+		song = null;
+	}
 </script>
 
-<QRScanner onScan={parseQRCode} />
+<QRScanner onScan={parseQRCode} disabled={song != null} />
 
 {#if song}
 	<AudioPlayer src={song.streamUrl} />
 {/if}
+
+<button
+	class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400 hover:shadow-2xl"
+	onclick={scanNewSong}>Nächsten Song scannen</button
+>
