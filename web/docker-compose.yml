@@ -6,6 +6,6 @@ services:
     ports:
       - '3000:3000'
     volumes:
-      - $HOME/songs:/songs
+      - /root/songs:/songs
     environment:
       - PUBLIC_SONGS_PATH=/songs
