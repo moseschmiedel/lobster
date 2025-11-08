@@ -1,5 +1,5 @@
 <script lang="ts">
-	import AudioPlayer from '$lib/components/AudioPlayer.svelte';
+	import AudioPlayer from '$lib/components/AudioPlayer/AudioPlayer.svelte';
 	import QRScanner from '$lib/components/QRScanner.svelte';
 
 	type Song = {
@@ -36,11 +36,6 @@
 
 <div class="flex h-screen w-full flex-col items-center justify-center gap-4 p-4">
 	<h1 class="font-mono text-2xl font-bold">Lobster</h1>
-	{#if song}
-		<div class="hidden">
-			<AudioPlayer src={song.streamUrl} />
-		</div>
-	{/if}
 	<div class="overflow-clip rounded-2xl">
 		{#if !song}
 			<QRScanner height={400} onScan={parseQRCode} />
@@ -53,4 +48,9 @@
 			</div>
 		{/if}
 	</div>
+	{#if song}
+		<div class="w-[400px]">
+			<AudioPlayer src={song.streamUrl} />
+		</div>
+	{/if}
 </div>
