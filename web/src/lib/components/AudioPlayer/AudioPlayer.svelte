@@ -83,6 +83,12 @@
 </div>
 
 <style>
+	:root {
+		--fg: var(--color-amber-500);
+		--bg: var(--color-amber-100);
+		--text-color: var(--color-gray-600);
+		--slider-color: var(--color-gray-100);
+	}
 	.player {
 		display: grid;
 		grid-template-columns: 2.5em 1fr;
@@ -90,14 +96,14 @@
 		gap: 1em;
 		padding: 0.5em 1em 0.5em 0.5em;
 		border-radius: 2em;
-		background: var(--color-amber-50);
+		background: var(--bg);
 		transition: filter 0.2s;
-		color: var(--color-amber-400);
+		color: var(--fg);
 		user-select: none;
 	}
 
 	.player:not(.paused) {
-		color: var(--color-gray-600);
+		color: var(--text-color);
 		filter: drop-shadow(0.5em 0.5em 1em rgba(0, 0, 0, 0.1));
 	}
 
@@ -107,7 +113,7 @@
 		background-repeat: no-repeat;
 		background-position: 50% 50%;
 		border-radius: 50%;
-		background-color: var(--color-amber-400);
+		background-color: var(--fg);
 	}
 
 	[aria-label='pause'] {
@@ -120,7 +126,7 @@
 
 	.info {
 		overflow: hidden;
-		color: var(--color-gray-600);
+		color: var(--text-color);
 	}
 
 	.time {
@@ -136,7 +142,7 @@
 	.slider {
 		flex: 1;
 		height: 0.5em;
-		background: var(--color-gray-100);
+		background: var(--slider-color);
 		border-radius: 0.5em;
 		overflow: hidden;
 	}
@@ -144,6 +150,6 @@
 	.progress {
 		width: calc(100 * var(--progress));
 		height: 100%;
-		background: var(--color-yellow-400);
+		background: var(--fg);
 	}
 </style>
