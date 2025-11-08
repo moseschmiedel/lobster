@@ -50,7 +50,7 @@
 				onpointerdown={(e) => {
 					const div = e.currentTarget;
 
-					function seek(e) {
+					function seek(e: PointerEvent) {
 						const { left, width } = div.getBoundingClientRect();
 
 						let p = (e.clientX - left) / width;
