@@ -1,4 +1,6 @@
 <script lang="ts">
+	import '@fontsource/pacifico';
+
 	import AudioPlayer from '$lib/components/AudioPlayer/AudioPlayer.svelte';
 	import QRScanner from '$lib/components/QRScanner.svelte';
 
@@ -41,8 +43,14 @@
 	}
 </script>
 
-<div class="flex h-screen w-full flex-col items-center justify-center gap-4 p-4">
-	<h1 class="font-mono text-2xl font-bold">Lobster</h1>
+<div class="flex h-screen w-full flex-col items-center justify-center gap-4 bg-amber-50 p-4">
+	<div>
+		<h1
+			class="bg-linear-to-br from-amber-500 to-amber-200 bg-clip-text font-[Pacifico] text-5xl font-extrabold text-transparent"
+		>
+			Lobster
+		</h1>
+	</div>
 	<div class="w-full overflow-clip rounded-2xl">
 		{#if !song}
 			<QRScanner height={400} onScan={parseQRCode} />
