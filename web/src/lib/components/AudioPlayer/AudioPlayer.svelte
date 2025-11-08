@@ -24,7 +24,11 @@
 		bind:currentTime={time}
 		bind:duration
 		bind:paused
+		onloadstart={() => {
+			console.log('loading', src);
+		}}
 		oncanplay={(e) => {
+			console.log('playing', src);
 			e.currentTarget?.play();
 		}}
 		onended={() => {

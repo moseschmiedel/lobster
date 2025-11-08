@@ -9,6 +9,7 @@
 	};
 
 	let song: Song | null = $state(null);
+	let scannedURL: string[] = $state([]);
 
 	function parseURL(maybeURL: string): string {
 		if (maybeURL.startsWith('lobster://')) {
@@ -23,24 +24,30 @@
 	function parseQRCode(data: string) {
 		console.log('Scanned QR Code:', data);
 		const audioURl = parseURL(data);
+		if (scannedURL.includes(data)) {
+			console.warn('URL already scanned:', data);
+			return;
+		}
 		song = {
 			title: 'Scanned Song',
 			streamUrl: audioURl
 		};
+		scannedURL.push(data);
 	}
 
 	function scanNewSong() {
 		song = null;
+		scannedURL = [];
 	}
 </script>
 
 <div class="flex h-screen w-full flex-col items-center justify-center gap-4 p-4">
 	<h1 class="font-mono text-2xl font-bold">Lobster</h1>
-	<div class="overflow-clip rounded-2xl">
+	<div class="w-full overflow-clip rounded-2xl">
 		{#if !song}
 			<QRScanner height={400} onScan={parseQRCode} />
 		{:else}
-			<div class="flex h-[400px] flex-col items-center justify-center bg-gray-300 p-4">
+			<div class="flex h-[600px] w-full flex-col items-center justify-center bg-gray-300 px-1">
 				<button
 					class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400"
 					onclick={scanNewSong}>Nächsten Song scannen</button
@@ -49,7 +56,7 @@
 		{/if}
 	</div>
 	{#if song}
-		<div class="w-[400px]">
+		<div class="w-full">
 			<AudioPlayer src={song.streamUrl} />
 		</div>
 	{/if}
