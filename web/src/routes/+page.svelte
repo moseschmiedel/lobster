@@ -47,7 +47,7 @@
 		{#if !song}
 			<QRScanner height={400} onScan={parseQRCode} />
 		{:else}
-			<div class="flex h-[600px] w-full flex-col items-center justify-center bg-gray-300 px-1">
+			<div class="flex h-[400px] w-full flex-col items-center justify-center bg-gray-300 px-1">
 				<button
 					class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400"
 					onclick={scanNewSong}>Nächsten Song scannen</button
