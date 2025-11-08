@@ -1,0 +1,11 @@
+services:
+  lobster-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - $HOME/songs:/songs
+    environment:
+      - PUBLIC_SONGS_PATH=/songs
