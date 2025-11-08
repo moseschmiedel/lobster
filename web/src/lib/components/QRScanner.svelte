@@ -2,10 +2,12 @@
 	import QrScanner from 'qr-scanner';
 
 	type Props = {
+		width?: number;
+		height?: number;
 		onScan: (result: string) => void;
 	};
 
-	const { onScan }: Props = $props();
+	const { onScan, width, height }: Props = $props();
 
 	let video: HTMLVideoElement | null = $state(null);
 
@@ -33,7 +35,6 @@
 	{#if !hasCamera}
 		<p>No camera found on this device.</p>
 	{:else}
-		<p>Point your camera at a QR code to scan a song.</p>
-		<video bind:this={video} muted></video>
+		<video bind:this={video} {width} {height} muted class="object-cover object-center"></video>
 	{/if}
 {/await}

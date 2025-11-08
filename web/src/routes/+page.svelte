@@ -34,13 +34,23 @@
 	}
 </script>
 
-{#if song}
-	<AudioPlayer src={song.streamUrl} />
-{:else}
-	<QRScanner onScan={parseQRCode} />
-{/if}
-
-<button
-	class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400 hover:shadow-2xl"
-	onclick={scanNewSong}>Nächsten Song scannen</button
->
+<div class="flex h-screen w-full flex-col items-center justify-center gap-4 p-4">
+	<h1 class="font-mono text-2xl font-bold">Lobster</h1>
+	{#if song}
+		<div class="hidden">
+			<AudioPlayer src={song.streamUrl} />
+		</div>
+	{/if}
+	<div class="overflow-clip rounded-2xl">
+		{#if !song}
+			<QRScanner height={400} onScan={parseQRCode} />
+		{:else}
+			<div class="flex h-[400px] flex-col items-center justify-center bg-gray-300 p-4">
+				<button
+					class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400"
+					onclick={scanNewSong}>Nächsten Song scannen</button
+				>
+			</div>
+		{/if}
+	</div>
+</div>
