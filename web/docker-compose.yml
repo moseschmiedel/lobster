@@ -9,3 +9,7 @@ services:
       - /root/songs:/songs
     environment:
       - PUBLIC_SONGS_PATH=/songs
+    labels:
+      - traefik.enable=true
+      - 'traefik.http.routers.lobster-testing.rule=Host(`lobster.coolify1.schmiednet.de`) && PathPrefix(`/`)'
+      - traefik.http.routers.lobster-testing.entryPoints=http
