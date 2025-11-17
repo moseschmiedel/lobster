@@ -46,22 +46,24 @@
 <div class="flex h-screen w-full flex-col items-center justify-center gap-4 bg-amber-50 p-4">
 	<div>
 		<h1
-			class="bg-linear-to-br from-amber-500 to-amber-200 bg-clip-text font-[Pacifico] text-5xl font-extrabold text-transparent"
+			class="bg-linear-to-br from-amber-500 to-amber-200 bg-clip-text p-2 font-[Pacifico] text-5xl font-extrabold text-transparent"
 		>
 			Lobster
 		</h1>
 	</div>
-	<div class="w-full overflow-clip rounded-2xl">
-		{#if !song}
-			<QRScanner height={400} onScan={parseQRCode} />
-		{:else}
-			<div class="flex h-[400px] w-full flex-col items-center justify-center bg-gray-300 px-1">
-				<button
-					class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400"
-					onclick={scanNewSong}>Nächsten Song scannen</button
-				>
-			</div>
-		{/if}
+	<div class="flex w-full justify-center">
+		<div class="overflow-clip rounded-2xl">
+			{#if !song}
+				<QRScanner height={400} onScan={parseQRCode} />
+			{:else}
+				<div class="flex h-[400px] w-full flex-col items-center justify-center bg-gray-300 px-1">
+					<button
+						class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400"
+						onclick={scanNewSong}>Nächsten Song scannen</button
+					>
+				</div>
+			{/if}
+		</div>
 	</div>
 	{#if song}
 		<div class="w-full">
