@@ -20,7 +20,7 @@
 
 <div class={['player', { paused }]}>
 	<audio
-		{src}
+		preload="auto"
 		bind:currentTime={time}
 		bind:duration
 		bind:paused
@@ -34,7 +34,9 @@
 		onended={() => {
 			time = 0;
 		}}
-	></audio>
+	>
+		<source {src} type="audio/mpeg" />
+	</audio>
 
 	<button
 		class="play shadow"
