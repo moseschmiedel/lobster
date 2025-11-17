@@ -31,7 +31,7 @@ lobster/
 
 ### Prerequisites
 
-- **For Web App**: [Bun](https://bun.sh/) (JavaScript runtime and package manager)
+- **For Web App**: [Node.js](https://nodejs.org/) and npm (JavaScript runtime and package manager)
 - **For Python Scripts**: [Pixi](https://pixi.sh/) (Python package manager)
 
 ### Web Application Setup
@@ -45,7 +45,7 @@ lobster/
 2. Install dependencies:
 
     ```bash
-    bun install
+    npm install
     ```
 
 3. Set up environment variables:
@@ -105,7 +105,7 @@ lobster/
 
     ```bash
     cd web/
-    bun run dev
+    npm run dev
     ```
 
     Access the app at `http://localhost:5173`
@@ -114,8 +114,7 @@ lobster/
 
     ```bash
     cd web/
-    bun run build
-    bun run preview
+    npm run build
     ```
 
 3. **Production deployment**:
@@ -137,7 +136,7 @@ lobster/
 - **TypeScript**: Type-safe JavaScript
 - **TailwindCSS**: Utility-first CSS framework
 - **QR Scanner**: Browser-based QR code scanning
-- **Bun**: Fast JavaScript runtime and package manager
+- **npm**: Node.js package manager
 
 ### Python Technologies
 
@@ -166,10 +165,10 @@ Songs are identified by deterministic 24-character Base62 IDs generated from the
 
 ```bash
 cd web/
-bun run dev          # Start development server
-bun run check        # Type checking
-bun run format       # Format code with Prettier
-bun run lint         # Lint code
+npm run dev          # Start development server
+npm run check        # Type checking
+npm run format       # Format code with Prettier
+npm run lint         # Lint code
 ```
 
 ### Python Development
@@ -185,7 +184,7 @@ Here's a complete example of setting up and using the system:
     ```bash
     # Set up web app
     cd web/
-    bun install
+    npm install
 
     # Set up Python environment
     cd ../qr-gen/
@@ -207,7 +206,7 @@ Here's a complete example of setting up and using the system:
     ```bash
     cd ../web/
     export PUBLIC_SONGS_PATH="../qr-gen/downloads"
-    bun run dev
+    npm run dev
     ```
 
 5. **Play**: Open the web app, scan QR codes, and enjoy the music!
