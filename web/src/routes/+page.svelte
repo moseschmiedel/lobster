@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '@fontsource/pacifico';
+	import '@fontsource/rammetto-one';
 
 	import AudioPlayer from '$lib/components/AudioPlayer/AudioPlayer.svelte';
 	import QRScanner from '$lib/components/QRScanner.svelte';
@@ -9,6 +10,12 @@
 		streamUrl: string;
 		coverUrl?: string;
 	};
+
+	let gameStarted = $state(false);
+
+	function startGame() {
+		gameStarted = true;
+	}
 
 	let song: Song | null = $state(null);
 	let scannedURL: string[] = $state([]);
@@ -52,18 +59,27 @@
 		</h1>
 	</div>
 	<div class="flex w-full justify-center">
-		<div class="w-fit overflow-clip rounded-2xl">
-			{#if !song}
-				<QRScanner height={400} onScan={parseQRCode} />
-			{:else}
-				<div class="flex h-[400px] w-[336px] flex-col items-center justify-center bg-gray-300 px-1">
-					<button
-						class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400"
-						onclick={scanNewSong}>Nächsten Song scannen</button
+		{#if gameStarted}
+			<div class="w-fit overflow-clip rounded-2xl">
+				{#if !song}
+					<QRScanner height={400} onScan={parseQRCode} />
+				{:else}
+					<div
+						class="flex h-[400px] w-[336px] flex-col items-center justify-center bg-gray-300 px-1"
 					>
-				</div>
-			{/if}
-		</div>
+						<button
+							class="cursor-pointer rounded-md border-s-stone-400 bg-amber-500 p-2 shadow shadow-amber-300 hover:bg-amber-400"
+							onclick={scanNewSong}>Nächsten Song scannen</button
+						>
+					</div>
+				{/if}
+			</div>
+		{:else}
+			<button
+				class="cursor-pointer rounded-md bg-linear-to-br from-emerald-400 to-lime-300 p-4 font-[Rammetto_One] text-2xl text-white shadow-md shadow-lime-400 hover:from-emerald-300"
+				onclick={startGame}>Spiel starten!</button
+			>
+		{/if}
 	</div>
 	{#if song}
 		<div class="w-full">
