@@ -20,10 +20,10 @@
 
 <div class={['player', { paused }]}>
 	<audio
-		preload="auto"
 		bind:currentTime={time}
 		bind:duration
 		bind:paused
+		playsinline
 		onloadstart={() => {
 			console.log('loading', src);
 		}}
