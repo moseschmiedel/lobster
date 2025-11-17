@@ -23,7 +23,7 @@
 		bind:currentTime={time}
 		bind:duration
 		bind:paused
-		playsinline
+		{src}
 		onloadstart={() => {
 			console.log('loading', src);
 		}}
@@ -35,7 +35,6 @@
 			time = 0;
 		}}
 	>
-		<source {src} type="audio/mpeg" />
 	</audio>
 
 	<button
