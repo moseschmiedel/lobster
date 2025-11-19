@@ -2,7 +2,7 @@
 authors = ["Mose Schmiedel <mose@schmiednet.de>"]
 channels = ["https://conda.modular.com/max-nightly", "conda-forge"]
 name = "qr-gen"
-platforms = ["osx-arm64"]
+platforms = ["osx-arm64", "linux-64"]
 version = "0.1.0"
 
 [tasks]
@@ -10,6 +10,7 @@ version = "0.1.0"
 [dependencies]
 yt-dlp = ">=2025.10.22,<2026"
 pathvalidate = ">=3.3.1,<4"
+ffmpeg = ">=8.0.0,<9"
 
 [pypi-dependencies]
 qrcode = { version = "*", extras = ["pil"] }
