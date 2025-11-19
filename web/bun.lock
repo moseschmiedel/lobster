@@ -2,7 +2,7 @@
   "lockfileVersion": 1,
   "workspaces": {
     "": {
-      "name": "hitster",
+      "name": "lobster",
       "dependencies": {
         "@fontsource/pacifico": "^5.2.7",
         "@fontsource/rammetto-one": "^5.2.7",
