@@ -1,16 +1,17 @@
-from bdb import GENERATOR_AND_COROUTINE_FLAGS
-from dataclasses import dataclass
-from pathlib import PurePath
-import random
-import string
-from typing import override
 import csv
-import shutil
 import os
-from concurrent.futures import ProcessPoolExecutor
-from yt_dlp import YoutubeDL, postprocessor
+import random
+import shutil
+import string
+from dataclasses import dataclass
+from multiprocessing import Lock
+from pathlib import PurePath
+from typing import override
+
+import lobster_scheme
 import qrcode
 from pathvalidate import sanitize_filename
+from yt_dlp import YoutubeDL, postprocessor
 
 
 @dataclass
@@ -87,10 +88,10 @@ class SongDB:
             "download_archive": "downloaded.txt",
             "noplaylist": True,
         }
-        urls = [s.yt_url for s in self.songs if s.yt_url]
+        titles_urls = [(s.title, s.yt_url) for s in self.songs if s.yt_url]
         yt_download_task(
             params,
-            urls,
+            titles_urls,
         )
 
     def generate_qr_codes(self, output_dir: str):
@@ -112,12 +113,23 @@ def generate_short_id(seed: str, length: int = 24) -> str:
     return "".join(random.choice(base62_chars) for _ in range(length))
 
 
-def yt_download_task(params, urls: list[str]):
-    for url in urls:
+def yt_download_task(params, titles_urls: list[tuple[str, str]]):
+    for title, url in titles_urls:
         id = generate_short_id(url, length=24)
 
         if os.path.exists(os.path.join("downloads", f"{id}.mp3")):
-            print(f"File for URL {url} already exists as {id}.mp3, skipping download.")
+            print(f"[Skip] Song '{title}' for URL {url} already exists as {id}.mp3.")
+            continue
+
+        print(f"[Parse] URL: {url}")
+        lobster_url = lobster_scheme.parse(url)
+        if lobster_url:
+            print(f"[Parse] Detected lobster URL: {url}")
+            shutil.copy(
+                os.path.join(lobster_scheme.BASE_PATH, lobster_url.filepath),
+                os.path.join("downloads", f"{id}.mp3"),
+            )
+            print(f"[Copy] Lobster file {lobster_url.filepath} to {id}.mp3")
             continue
 
         with YoutubeDL(params=params) as ydl:
@@ -128,6 +140,15 @@ def yt_download_task(params, urls: list[str]):
                 pass
 
 
+def rename_file(old_path: str, new_file_name: str) -> str:
+    path = PurePath(old_path)
+    ext = path.suffix
+    dir = path.parent
+    newfile = os.path.join(dir, PurePath(new_file_name).with_suffix(ext))
+    shutil.move(path, newfile)
+    return newfile
+
+
 class FileRenamer(postprocessor.PostProcessor):
     new_file_name: str
 
@@ -136,10 +157,6 @@ class FileRenamer(postprocessor.PostProcessor):
         self.new_file_name = new_file_name
 
     def run(self, info):
-        oldfile = info["filepath"]
-        ext = PurePath(oldfile).suffix
-        dir = info.get("__finaldir")
-        newfile = os.path.join(dir, PurePath(self.new_file_name).with_suffix(ext))
-        shutil.move(oldfile, newfile)
-        self.to_screen(f"Renamed file {oldfile} to {newfile}")
+        newfile = rename_file(info["filepath"], self.new_file_name)
+        self.to_screen(f"Renamed file {info['filepath']} to {newfile}")
         return [], info
