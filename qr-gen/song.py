@@ -103,6 +103,11 @@ class SongDB:
             img = song.qr_code()
             img.save(os.path.join(output_dir, file_name))
 
+    def error_list(self):
+        urls = [song.yt_url for song in self.songs if song.yt_url]
+        for url in urls:
+            print(f"downloads/{generate_short_id(url)}.mp3")
+
 
 base62_chars = string.digits + string.ascii_letters
 
