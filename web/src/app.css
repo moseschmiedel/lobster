@@ -1,2 +1,8 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+@theme {
+	--color-lobster-yellow: #ffbd59;
+	--color-lobster-orange: #eb8d65;
+	--color-lobster-red: #8a0404;
+}
