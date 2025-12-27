@@ -11,20 +11,20 @@
 	let activeTab = $state('basics');
 
 	const tabs = [
-		{ id: 'basics', label: 'THE BASICS', title: 'Der Spielablauf' },
-		{ id: 'extras', label: 'EXTRAS', title: 'Sonderregeln & Spielideen' }
+		{ id: 'basics', label: 'The Basics', title: 'Der Spielablauf' },
+		{ id: 'extras', label: 'Extras', title: 'Sonderregeln & Spielideen' }
 	];
 </script>
 
 <div
-	class="flex min-h-screen w-full flex-col items-center bg-lobster-yellow/10 p-4 font-[Antonio]"
+	class="flex min-h-screen w-full flex-col items-center p-4 font-[Antonio]"
 >
 	<!-- Header -->
 	<header class="mb-8 mt-4 flex w-full max-w-4xl flex-col items-center">
-		<a href="/" class="mb-8 font-[Pacifico] text-4xl text-lobster-red no-underline transition-transform hover:scale-105">
+		<a href="/" class="mb-8 neon-title neon-shadow text-4xl">
 			Lobster
 		</a>
-		<h1 class="text-center text-4xl font-thin tracking-widest text-lobster-red uppercase sm:text-6xl md:text-7xl">
+		<h1 class="text-center text-4xl font-thin tracking-widest text-white neon-shadow uppercase sm:text-6xl md:text-7xl">
 			SPIELANLEITUNG
 		</h1>
 	</header>
@@ -33,10 +33,10 @@
 	<div class="mb-12 flex w-full max-w-4xl flex-wrap justify-center gap-4">
 		{#each tabs as tab}
 			<button
-				class="rounded-full px-8 py-3 text-xl font-light tracking-wide transition-all uppercase
+				class="rounded-full py-4 px-8 text-xl font-light tracking-wide transition-all neon-shadow border-3 border-secondary font-[Rammetto_One] text-white
         {activeTab === tab.id
-					? 'bg-lobster-red text-white shadow-lg shadow-lobster-red/30'
-					: 'bg-white text-lobster-orange hover:bg-lobster-orange/10'}"
+					? 'bg-linear-to-br from-secondary to-primary'
+					:  'hover:bg-linear-to-br to-secondary from-primary'}"
 				onclick={() => (activeTab = tab.id)}
 			>
 				{tab.label}
@@ -49,15 +49,15 @@
 		{#each tabs as tab}
 			{#if activeTab === tab.id}
 				<div
-					class="w-full animate-in fade-in slide-in-from-bottom-4 duration-500 bg-white p-8 rounded-3xl shadow-xl shadow-lobster-orange/10 border border-lobster-orange/10"
+					class="w-full animate-in fade-in slide-in-from-bottom-4 duration-500 p-4"
 				>
 					<h2
-						class="mb-6 bg-linear-to-r from-lobster-red to-lobster-orange bg-clip-text text-4xl font-bold text-transparent"
+						class="mb-6 bg-linear-to-r from-secondary to-primary bg-clip-text text-4xl font-bold text-transparent"
 					>
 						{tab.title}
 					</h2>
 
-					<div class="space-y-6 text-xl leading-relaxed text-stone-600 font-sans">
+					<div class="space-y-6 text-xl leading-relaxed text-stone-100 font-sans">
 						{#if tab.id === 'basics'}
 							<div class="space-y-6">
 								<p>
@@ -73,11 +73,11 @@
 									Ratet, wann der jeweilige Song erschienen ist, und legt die Karte an die richtige
 									Position auf eurem Musik-Zeitstrahl.
 								</p>
-								<div class="rounded-xl bg-orange-50 p-4 shadow-inner">
-									<p class="mb-2 font-bold text-lobster-red">ACHTUNG:</p>
+								<div class="rounded-xl bg-primary/20 p-4 shadow-inner">
+									<p class="mb-2 font-bold text-secondary">ACHTUNG:</p>
 									<p class="mb-2">
 										Die gesungene Sprache ist für das Erscheinungsdatum relevant. <br />
-										<span class="italic text-stone-500"
+										<span class="italic text-primary"
 											>Beispiel: „Our God“ von Chris Tomlin ist 2010 erschienen, die deutsche
 											Übersetzung „So bist nur du“ 2011.</span
 										>
@@ -95,7 +95,7 @@
 									</p>
 								</div>
 								<div>
-									<h3 class="font-[Antonio] text-2xl uppercase text-lobster-red">Lobstern</h3>
+									<h3 class="font-[Antonio] text-2xl uppercase text-secondary">Lobstern</h3>
 									<p>
 										Alle Mitspielenden haben die Chance ihre Lobster-Points einzusetzen, falls sie
 										denken, dass die Karte falsch einsortiert ist. Bevor die Karte umgedreht wird,
@@ -106,7 +106,7 @@
 									</p>
 								</div>
 								<div>
-									<h3 class="font-[Antonio] text-2xl uppercase text-lobster-red">Gewinnen</h3>
+									<h3 class="font-[Antonio] text-2xl uppercase text-secondary">Gewinnen</h3>
 									<p>
 										Ihr könnt Lobster-Points gewinnen, indem ihr während eures Zuges den richtigen
 										Titel des Songs und mindestens einen der Namen der Künstler:innen nennt. Ein
@@ -125,19 +125,19 @@
 							</div>
 						{:else if tab.id === 'extras'}
 							<div class="space-y-8">
-								<p class="font-bold text-stone-800">
+								<p class="font-bold text-stone-400">
 									Sonderregeln und Spielideen, um das Spiel beliebig zu erweitern:
 								</p>
 
 								<!-- Zusätzliche Lobster- Points -->
 								<div>
-									<h3 class="mb-2 font-[Antonio] text-2xl uppercase text-lobster-red">
+									<h3 class="mb-2 font-[Antonio] text-2xl uppercase text-secondary">
 										Zusätzliche Lobster-Points
 									</h3>
 									<p class="mb-2 text-sm italic text-stone-500">
 										Gilt immer nur für die Person, die an der Reihe ist.
 									</p>
-									<ul class="list-disc space-y-2 pl-6 marker:text-lobster-red">
+									<ul class="list-disc space-y-2 pl-6 marker:text-secondary">
 										<li>
 											Falls man nur den Titel oder Künstler:in kennt, kann man trotzdem einen
 											Lobster-Point gewinnen, indem man einen coolen Tanzmove macht.
@@ -152,7 +152,7 @@
 
 								<!-- Hummer-Lobster-Point -->
 								<div>
-									<h3 class="mb-2 flex items-center gap-2 font-[Antonio] text-2xl uppercase text-lobster-red">
+									<h3 class="mb-2 flex items-center gap-2 font-[Antonio] text-2xl uppercase text-secondary">
 										Hummer-Lobster-Point <img
 											src={lobsterIcon}
 											alt="Lobster"
@@ -168,7 +168,7 @@
 										Hummer-Lobster-Point. Sollten das mehr als drei Leute sein, muss darum
 										geschnickt werden.
 									</p>
-									<p class="mt-4 font-bold text-lobster-red">Die Funktion:</p>
+									<p class="mt-4 font-bold text-secondary">Die Funktion:</p>
 									<p>
 										Mit diesem Hummer-Lobster-Point hat man die Chance Karten zu klauen. Ist man
 										nicht an der Reihe, aber nennt schneller den Titel des Songs, als die Person,
@@ -184,7 +184,7 @@
 
 								<!-- Würfeledition -->
 								<div>
-									<h3 class="mb-4 font-[Antonio] text-2xl uppercase text-lobster-red">
+									<h3 class="mb-4 font-[Antonio] text-2xl uppercase text-secondary">
 										Würfeledition
 									</h3>
 									<p class="mb-4">
@@ -193,12 +193,12 @@
 										würfelt.
 									</p>
 									<div class="grid gap-4 sm:grid-cols-2">
-										<div class="rounded-xl border border-stone-200 bg-white p-4">
+										<div class="rounded-xl border border-stone-400 bg-stone-700 p-4">
 											<h4 class="mb-2 font-bold text-stone-400">⬜ Leere Seite</h4>
 											<p>Ganz normales Spiel.</p>
 										</div>
-										<div class="rounded-xl border border-lobster-yellow bg-lobster-yellow/10 p-4">
-											<h4 class="mb-2 flex items-center gap-2 font-bold text-lobster-orange">
+										<div class="rounded-xl border border-primary bg-primary/10 p-4">
+											<h4 class="mb-2 flex items-center gap-2 font-bold text-primary">
 												<img src={peopleIcon} alt="Menschen" class="h-8 w-8 object-contain" /> Menschen
 											</h4>
 											<p>
@@ -208,8 +208,8 @@
 												genannt werden.
 											</p>
 										</div>
-										<div class="rounded-xl border border-lobster-red bg-lobster-red/10 p-4">
-											<h4 class="mb-2 flex items-center gap-2 font-bold text-lobster-red">
+										<div class="rounded-xl border border-secondary bg-secondary/10 p-4">
+											<h4 class="mb-2 flex items-center gap-2 font-bold text-secondary">
 												<img src={lobsterIcon} alt="Lobster" class="h-8 w-auto object-contain" /> Hummer
 											</h4>
 											<p>
@@ -218,14 +218,14 @@
 												Lobster-Point gelobstert hat, gilt folgende Regel: Die Person, die richtig
 												lag, darf von einer anderen mitspielenden Person eine Karte aus dem
 												Zeitstrahl klauen und sie auf einem anderen Zeitstrahl einsortieren. <br />
-												<strong class="text-xs uppercase tracking-wide text-lobster-red"
+												<strong class="text-xs uppercase tracking-wide text-secondary"
 													>Wichtig: Die Karte darf NICHT auf dem eigenen Zeitstrahl angelegt
 													werden.</strong
 												>
 											</p>
 										</div>
-										<div class="rounded-xl border border-purple-200 bg-purple-50 p-4">
-											<h4 class="mb-2 flex items-center gap-2 font-bold text-purple-600">
+										<div class="rounded-xl border border-purple-400 bg-purple-950 p-4">
+											<h4 class="mb-2 flex items-center gap-2 font-bold text-purple-400">
 												<img src={cardsIcon} alt="Zwei Karten" class="h-8 w-8 object-contain" /> Zwei
 												Karten
 											</h4>
@@ -240,7 +240,7 @@
 
 								<!-- Memory -->
 								<div>
-									<h3 class="mb-2 font-[Antonio] text-2xl uppercase text-lobster-red">
+									<h3 class="mb-2 font-[Antonio] text-2xl uppercase text-secondary">
 										Memory
 									</h3>
 									<p>
@@ -257,7 +257,7 @@
 
 	<a
 		href="/"
-		class="mt-12 text-lg text-lobster-red/60 hover:text-lobster-red transition-colors"
+		class="mt-12 neon-shadow cursor-pointer font-[Antonio] text-lg font-thin tracking-widest text-white opacity-80 transition-opacity hover:opacity-100"
 	>
 		Zurück zum Start
 	</a>

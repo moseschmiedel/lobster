@@ -37,6 +37,7 @@
 		"@fontsource/oswald": "^5.2.8",
 		"@fontsource/pacifico": "^5.2.7",
 		"@fontsource/rammetto-one": "^5.2.7",
+		"canvas-confetti": "^1.9.4",
 		"qr-scanner": "^1.4.2"
 	}
 }

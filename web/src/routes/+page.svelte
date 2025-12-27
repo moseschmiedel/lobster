@@ -1,11 +1,11 @@
 <script lang="ts">
-	import '@fontsource/pacifico';
 	import '@fontsource/rammetto-one';
 	import '@fontsource/cinzel';
 	import '@fontsource/antonio';
-
+	import confetti from 'canvas-confetti';
 	import AudioPlayer from '$lib/components/AudioPlayer/AudioPlayer.svelte';
 	import QRScanner from '$lib/components/QRScanner.svelte';
+	import imageSrc from '$lib/assets/lobster-vinyl.png';
 
 	type Song = {
 		title: string;
@@ -17,6 +17,20 @@
 
 	function startGame() {
 		gameStarted = true;
+	}
+
+	function fireConfetti(event: MouseEvent) {
+		const target = event.currentTarget as HTMLElement;
+		const rect = target.getBoundingClientRect();
+		const x = (rect.left + rect.width / 2) / window.innerWidth;
+		const y = (rect.top + rect.height / 2) / window.innerHeight;
+		
+		confetti({
+			particleCount: 100,
+			spread: 360,
+			origin: { x, y },
+			colors: ['#ff6b35', '#e63946', '#ffb347', '#ffd700']
+		});
 	}
 
 	let song: Song | null = $state(null);
@@ -52,49 +66,50 @@
 	}
 </script>
 
-<div class="flex h-screen w-full flex-col items-center justify-around bg-lobster-yellow/10 p-8 pb-16">
-	<div class="relative flex items-center justify-center">
-		<div class="ring-container">
-			<div class="ring ring-1"></div>
-			<div class="ring ring-2"></div>
-			<div class="ring ring-3"></div>
-			<div class="ring ring-4"></div>
-			<div class="ring ring-5"></div>
-		</div>
-		<h1
-			class="relative z-10 p-2 font-[Pacifico] text-6xl font-extrabold text-lobster-red drop-shadow-sm sm:text-8xl lg:text-9xl"
-		>
-			Lobster
-		</h1>
-	</div>
+<div class="flex h-screen w-full flex-col p-8">
+	<h1
+		class="neon-title neon-shadow inline-block text-center text-6xl md:text-8xl mb-8"
+		data-text="Lobster"
+	>
+		Lo<span class="flicker-slow">b</span>s<span class="flicker-fast">t</span>er
+	</h1>
 	<div class="relative z-20 flex w-full justify-center pb-12">
 		{#if gameStarted}
-			<div class="w-fit overflow-clip rounded-2xl shadow-2xl shadow-lobster-orange/20">
+			<div class="w-fit overflow-clip rounded-2xl shadow-2xl shadow-primary/20">
 				{#if !song}
 					<QRScanner height={400} onScan={parseQRCode} />
 				{:else}
 					<div
-						class="flex h-[400px] w-[336px] flex-col items-center justify-center bg-lobster-orange/20 px-1"
+						class="flex h-[400px] w-[336px] flex-col items-center justify-center bg-primary/20 px-1"
 					>
 						<button
-							class="w-full cursor-pointer rounded-xl bg-lobster-yellow px-8 py-4 font-bold text-lobster-red shadow-lg shadow-lobster-orange transition-all hover:scale-105 active:scale-95"
-							onclick={scanNewSong}>Nächsten Song scannen</button
-						>
+							class="neon-button neon-shadow"
+							onclick={scanNewSong}>Nächsten Song scannen</button>
 					</div>
 				{/if}
 			</div>
 		{:else}
 			<div class="flex flex-col items-center gap-6">
-				<button
-					class="cursor-pointer rounded-full bg-linear-to-r from-lobster-red to-lobster-orange px-12 py-6 font-[Rammetto_One] text-2xl text-white shadow-xl shadow-lobster-red/40 transition-all hover:scale-105 hover:shadow-2xl active:scale-95 active:shadow-inner"
-					onclick={startGame}>Spiel starten!</button
-				>
+				<div class="relative flex items-center justify-center my-12">
+					<!-- Pulsing circles for beat visualization -->
+					<div class="absolute h-56 w-56 rounded-full border-2 border-primary/10 animate-[ping_2s_ease-out_infinite]"></div>
+					<!-- Glow effect -->
+					<div class="absolute h-48 w-48 rounded-full bg-secondary/40 blur-xl animate-[pulse_1.5s_ease-in-out_infinite]"></div>
+					<div class="absolute h-40 w-40 rounded-full bg-secondary blur-lg animate-[pulse_1s_ease-in-out_0.25s_infinite]"></div>
+					<!-- Rotating vinyl -->
+					<button type="button" onclick={fireConfetti} class="cursor-pointer bg-transparent border-none p-0">
+						<img src={imageSrc} alt="Dancing Lobster" class="relative z-10 h-48 w-auto hover:scale-105 transition-transform animate-[spin_5s_linear_infinite] drop-shadow-[0_0_15px_rgba(255,107,53,0.5)]" />
+					</button>
+				</div>
 				<a
 					href="/anleitung"
-					class="cursor-pointer font-[Antonio] text-3xl font-thin tracking-widest text-lobster-red opacity-80 transition-opacity hover:opacity-100"
+					class="neon-shadow cursor-pointer font-[Antonio] text-3xl font-thin tracking-widest text-white opacity-80 transition-opacity hover:opacity-100"
 				>
 					SPIELANLEITUNG
 				</a>
+				<button
+					class="neon-button neon-shadow"
+					onclick={startGame}>Spiel starten!</button>
 			</div>
 		{/if}
 	</div>
@@ -104,85 +119,3 @@
 		</div>
 	{/if}
 </div>
-
-<style>
-	.ring-container {
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 300px;
-		height: 300px;
-		pointer-events: none;
-		z-index: 0;
-	}
-
-	.ring {
-		position: absolute;
-		inset: 0;
-		border: 2px solid transparent;
-		border-radius: 50%;
-		animation: ring-pulse 4s infinite ease-in-out;
-	}
-
-	.ring-1 {
-		border-color: var(--color-lobster-yellow);
-		border-top-color: transparent;
-		transform: rotate(45deg);
-		animation-delay: 0s;
-	}
-	.ring-2 {
-		border-color: var(--color-lobster-orange);
-		border-right-color: transparent;
-		border-bottom-color: transparent;
-		transform: rotate(-30deg);
-		animation-delay: 0.5s;
-		width: 92%;
-		height: 92%;
-		top: 4%;
-		left: 4%;
-	}
-	.ring-3 {
-		border-color: var(--color-lobster-orange);
-		border-left-color: transparent;
-		transform: rotate(120deg);
-		animation-delay: 1s;
-		width: 84%;
-		height: 84%;
-		top: 8%;
-		left: 8%;
-	}
-	.ring-4 {
-		border-color: var(--color-lobster-red);
-		border-bottom-color: transparent;
-		border-top-color: transparent;
-		transform: rotate(200deg);
-		animation-delay: 1.5s;
-		width: 76%;
-		height: 76%;
-		top: 12%;
-		left: 12%;
-	}
-	.ring-5 {
-		border-color: var(--color-lobster-red);
-		border-left-color: transparent;
-		transform: rotate(10deg);
-		animation-delay: 2s;
-		width: 68%;
-		height: 68%;
-		top: 16%;
-		left: 16%;
-	}
-
-	@keyframes ring-pulse {
-		0%,
-		100% {
-			opacity: 0.3;
-			transform: scale(1) rotate(0deg);
-		}
-		50% {
-			opacity: 0.6;
-			transform: scale(1.05) rotate(10deg);
-		}
-	}
-</style>

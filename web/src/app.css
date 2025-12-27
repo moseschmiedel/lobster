@@ -1,8 +1,211 @@
 @import 'tailwindcss';
+@import "@fontsource/pacifico";
 @plugin '@tailwindcss/typography';
 
 @theme {
-	--color-lobster-yellow: #ffbd59;
-	--color-lobster-orange: #eb8d65;
-	--color-lobster-red: #8a0404;
+	--color-primary: #ffbd59;
+	--color-secondary: #ff4d4d;
+  	--color-accent1: #eb8d65;
+}
+
+@keyframes flicker {
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 0.99;
+  }
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes neon-border-shift {
+  0% {
+    background-position: 0% 50%, 0% 50%;
+  }
+  100% {
+    background-position: 0% 50%, 200% 50%;
+  }
+}
+
+@keyframes neon-text-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+@layer utilities {
+  .neon-title {
+    font-family: 'Pacifico', system-ui, sans-serif;
+    font-weight: 400;
+    background: linear-gradient(to bottom right, var(--color-secondary), var(--color-primary));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .neon-shadow {
+    text-shadow:
+      1px 1px 1px white,
+      2px 0px 3px var(--color-secondary),
+      2px 3px 15px var(--color-secondary),
+      2px 0px 15px,
+      5px 0px 125px,
+      20px 0vw 200px var(--color-secondary),
+      40px 0vw 200px var(--color-secondary);
+  }
+
+  .neon-button {
+    font-family: 'Rammetto One', system-ui, sans-serif;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+
+    display: inline-block;
+    cursor: pointer;
+    text-decoration: none;
+
+    /* Animated gradient text by default */
+    background: linear-gradient(
+      90deg,
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-secondary)
+    );
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: neon-text-shift 2.2s linear infinite;
+
+    border: none;
+    padding: calc(0.25em + 0.125em) calc(1em + 0.125em);
+    border-radius: 0.5em;
+
+    /* Neon glow around the button */
+    box-shadow:
+      0 0 1em 0.01em var(--color-secondary);
+
+    position: relative;
+
+    transition:
+      color 120ms linear,
+      border-color 120ms linear,
+      box-shadow 120ms linear,
+      background 120ms linear,
+      -webkit-text-fill-color 120ms linear;
+  }
+
+  /* Animated border ring layer via ::after */
+  .neon-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 0.2em solid transparent;
+
+    background: linear-gradient(
+      90deg,
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-secondary)
+    ) border-box;
+    background-size: 200% 100%;
+    background-position: 0% 50%;
+    animation: neon-text-shift 2.2s linear infinite, flicker 3s linear infinite;
+
+    -webkit-mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) padding-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .neon-button:hover,
+  .neon-button:focus,
+  .neon-button:focus-visible {
+    /* Solid white text on hover */
+    background: linear-gradient(
+      90deg,
+      var(--color-secondary),
+      var(--color-primary),
+      var(--color-secondary)
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    color: white;
+    -webkit-text-fill-color: white;
+  }
+
+  .neon-button:hover::after,
+  .neon-button:focus::after,
+  .neon-button:focus-visible::after {
+    /* Keep border animation running on hover */
+    opacity: 1;
+  }
+
+  .neon-button::before {
+    pointer-events: none;
+    content: '';
+    position: absolute;
+    background: var(--color-secondary);
+    top: 120%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    transform: perspective(1em) rotateX(40deg) scale(1, 0.35);
+    filter: blur(1em);
+    opacity: 0.4;
+    animation: flicker 3s linear infinite;
+
+    transition: opacity 120ms linear;
+  }
+
+  .neon-button:hover::before,
+  .neon-button:focus::before,
+  .neon-button:focus-visible::before {
+    opacity: 1;
+  }
+
+  .flicker-slow {
+    animation: flicker 3s linear infinite;
+  }
+
+  .flicker-fast {
+    animation: flicker 1s linear infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flicker-slow,
+  .flicker-fast {
+    animation: none;
+  }
+
+  .neon-button,
+  .neon-button::before,
+  .neon-button::after {
+    transition: none;
+  }
+
+  .neon-button {
+    animation: none;
+  }
 }
