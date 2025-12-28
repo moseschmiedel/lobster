@@ -85,10 +85,10 @@
 
 <style>
 	:root {
-		--fg: var(--color-lobster-red);
-		--bg: var(--color-lobster-yellow);
+		--fg: var(--color-secondary);
+		--bg: var(--color-primary);
 		--text-color: var(--color-stone-800);
-		--slider-color: var(--color-lobster-orange);
+		--slider-color: var(--color-secondary);
 	}
 	.player {
 		display: grid;

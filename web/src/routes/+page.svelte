@@ -2,10 +2,9 @@
 	import '@fontsource/rammetto-one';
 	import '@fontsource/cinzel';
 	import '@fontsource/antonio';
-	import confetti from 'canvas-confetti';
 	import AudioPlayer from '$lib/components/AudioPlayer/AudioPlayer.svelte';
 	import QRScanner from '$lib/components/QRScanner.svelte';
-	import imageSrc from '$lib/assets/lobster-vinyl.png';
+	import SpinningVinyl from '$lib/components/SpinningVinyl.svelte';
 
 	type Song = {
 		title: string;
@@ -17,20 +16,6 @@
 
 	function startGame() {
 		gameStarted = true;
-	}
-
-	function fireConfetti(event: MouseEvent) {
-		const target = event.currentTarget as HTMLElement;
-		const rect = target.getBoundingClientRect();
-		const x = (rect.left + rect.width / 2) / window.innerWidth;
-		const y = (rect.top + rect.height / 2) / window.innerHeight;
-		
-		confetti({
-			particleCount: 100,
-			spread: 360,
-			origin: { x, y },
-			colors: ['#ff6b35', '#e63946', '#ffb347', '#ffd700']
-		});
 	}
 
 	let song: Song | null = $state(null);
@@ -75,32 +60,24 @@
 	</h1>
 	<div class="relative z-20 flex w-full justify-center pb-12">
 		{#if gameStarted}
-			<div class="w-fit overflow-clip rounded-2xl shadow-2xl shadow-primary/20">
-				{#if !song}
+			{#if !song}
+				<div class="w-fit overflow-clip rounded-2xl">
 					<QRScanner height={400} onScan={parseQRCode} />
-				{:else}
-					<div
-						class="flex h-[400px] w-[336px] flex-col items-center justify-center bg-primary/20 px-1"
-					>
-						<button
-							class="neon-button neon-shadow"
-							onclick={scanNewSong}>Nächsten Song scannen</button>
+				</div>	
+			{:else}
+				<div class="flex flex-col items-center justify-center gap-6">
+					<SpinningVinyl />
+					<div class="w-full">
+						<AudioPlayer src={song.streamUrl} />
 					</div>
-				{/if}
-			</div>
+					<button
+						class="neon-button"
+						onclick={scanNewSong}>Nächsten Song scannen</button>
+				</div>
+			{/if}
 		{:else}
 			<div class="flex flex-col items-center gap-6">
-				<div class="relative flex items-center justify-center my-12">
-					<!-- Pulsing circles for beat visualization -->
-					<div class="absolute h-56 w-56 rounded-full border-2 border-primary/10 animate-[ping_2s_ease-out_infinite]"></div>
-					<!-- Glow effect -->
-					<div class="absolute h-48 w-48 rounded-full bg-secondary/40 blur-xl animate-[pulse_1.5s_ease-in-out_infinite]"></div>
-					<div class="absolute h-40 w-40 rounded-full bg-secondary blur-lg animate-[pulse_1s_ease-in-out_0.25s_infinite]"></div>
-					<!-- Rotating vinyl -->
-					<button type="button" onclick={fireConfetti} class="cursor-pointer bg-transparent border-none p-0">
-						<img src={imageSrc} alt="Dancing Lobster" class="relative z-10 h-48 w-auto hover:scale-105 transition-transform animate-[spin_5s_linear_infinite] drop-shadow-[0_0_15px_rgba(255,107,53,0.5)]" />
-					</button>
-				</div>
+				<SpinningVinyl />
 				<a
 					href="/anleitung"
 					class="neon-shadow cursor-pointer font-[Antonio] text-3xl font-thin tracking-widest text-white opacity-80 transition-opacity hover:opacity-100"
@@ -108,14 +85,9 @@
 					SPIELANLEITUNG
 				</a>
 				<button
-					class="neon-button neon-shadow"
+					class="neon-button"
 					onclick={startGame}>Spiel starten!</button>
 			</div>
 		{/if}
 	</div>
-	{#if song}
-		<div class="w-full">
-			<AudioPlayer src={song.streamUrl} />
-		</div>
-	{/if}
 </div>
