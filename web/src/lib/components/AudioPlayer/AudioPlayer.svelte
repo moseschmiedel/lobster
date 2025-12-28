@@ -76,7 +76,7 @@
 					);
 				}}
 			>
-				<div class="progress" style="--progress: {time / duration}%"></div>
+				<div class="progress" style="--progress: {time / duration}"></div>
 			</div>
 			<span>{duration ? format(duration) : '--:--'}</span>
 		</div>
@@ -149,7 +149,7 @@
 	}
 
 	.progress {
-		width: calc(100 * var(--progress));
+		width: calc(100% * var(--progress));
 		height: 100%;
 		background: var(--fg);
 	}

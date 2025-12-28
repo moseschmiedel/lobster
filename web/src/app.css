@@ -2,6 +2,10 @@
 @import "@fontsource/pacifico";
 @plugin '@tailwindcss/typography';
 
+html, body {
+  overflow-x: hidden;
+}
+
 @theme {
 	--color-primary: #ffbd59;
 	--color-secondary: #ff4d4d;
