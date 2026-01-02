@@ -10,4 +10,9 @@ declare global {
 	}
 }
 
+declare module '*?enhanced*' {
+	const value: any;
+	export default value;
+}
+
 export {};
