@@ -88,7 +88,6 @@
 		--fg: var(--color-secondary);
 		--bg: var(--color-primary);
 		--text-color: var(--color-stone-800);
-		--slider-color: var(--color-secondary);
 	}
 	.player {
 		display: grid;
@@ -142,8 +141,8 @@
 
 	.slider {
 		flex: 1;
-		height: 0.5em;
-		background: var(--slider-color);
+		height: 1em;
+		border: 2px solid var(--fg);
 		border-radius: 0.5em;
 		overflow: hidden;
 	}
